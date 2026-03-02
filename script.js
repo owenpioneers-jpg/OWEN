@@ -4,79 +4,127 @@ const nav = document.getElementById("navLinks");
 
 toggle.addEventListener("click", () => {
   nav.classList.toggle("show");
-  toggle.classList.toggle("active");
   toggle.textContent = nav.classList.contains("show") ? "✕" : "☰";
 });
-
 
 document.querySelectorAll(".nav-links a").forEach(link => {
   link.addEventListener("click", () => {
     if (window.innerWidth <= 768) {
       nav.classList.remove("show");
-      toggle.classList.remove("active");
       toggle.textContent = "☰";
     }
   });
 });
 
 
-function initCarousel(carouselSelector, cardSelector, interval = 4000) {
+
+function initInfiniteCarousel(carouselSelector, cardSelector, interval = 3500) {
   const carousel = document.querySelector(carouselSelector);
+  if (!carousel) return;
+
   const track = carousel.querySelector(".carousel-track");
-  let cards = carousel.querySelectorAll(cardSelector);
+  const originalCards = Array.from(carousel.querySelectorAll(cardSelector));
+  if (originalCards.length === 0) return;
 
-  let index = 1;
-  let autoSlide;
-
-  const firstClone = cards[0].cloneNode(true);
-  const lastClone = cards[cards.length - 1].cloneNode(true);
-  track.appendChild(firstClone);
-  track.prepend(lastClone);
-  cards = carousel.querySelectorAll(cardSelector);
-
-  function updateCarousel(animate = true) {
-    const cardWidth = cards[0].offsetWidth + 32; 
-    track.style.transition = animate ? "0.6s" : "none";
-    track.style.transform = `translateX(${-index * cardWidth}px)`;
-    cards.forEach(card => card.classList.remove("active"));
-    cards[index].classList.add("active");
-  }
-
-  function startAuto() { autoSlide = setInterval(() => { index++; updateCarousel(); }, interval); }
-  function stopAuto() { clearInterval(autoSlide); }
-
-  track.addEventListener("transitionend", () => {
-    if (cards[index].isSameNode(firstClone)) index = 1;
-    if (cards[index].isSameNode(lastClone)) index = cards.length - 2;
-    updateCarousel(false);
+  // Clone all cards: append clones at end, prepend clones at start
+  originalCards.forEach(card => {
+    const clone = card.cloneNode(true);
+    clone.classList.add("clone");
+    track.appendChild(clone);
+  });
+  originalCards.forEach(card => {
+    const clone = card.cloneNode(true);
+    clone.classList.add("clone");
+    track.prepend(clone);
   });
 
- 
-  let startX = 0, dragging = false;
-  track.addEventListener("mousedown", e => { dragging = true; startX = e.pageX; stopAuto(); });
-  track.addEventListener("mouseup", e => { if (dragging) handleSwipe(e.pageX - startX); });
-  track.addEventListener("mouseleave", e => { if (dragging) handleSwipe(e.pageX - startX); });
-  track.addEventListener("touchstart", e => { startX = e.touches[0].clientX; stopAuto(); });
-  track.addEventListener("touchend", e => { handleSwipe(e.changedTouches[0].clientX - startX); });
+  const allCards = Array.from(track.querySelectorAll(cardSelector));
+  const total = allCards.length;
+  const cloneCount = originalCards.length;
 
-  function handleSwipe(diff) {
-    if (diff > 50) index--;
-    else if (diff < -50) index++;
-    updateCarousel();
-    startAuto();
-    dragging = false;
+  // Start at first real card (after the prepended clones)
+  let currentIndex = cloneCount;
+  let autoSlide;
+  let isTransitioning = false;
+
+  function getCardWidth() {
+    return allCards[0].offsetWidth + parseInt(getComputedStyle(allCards[0]).marginLeft) * 2;
   }
+
+  function goTo(index, animate = true) {
+    track.style.transition = animate ? "transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)" : "none";
+    track.style.transform = `translateX(${-index * getCardWidth()}px)`;
+    allCards.forEach(c => c.classList.remove("active"));
+    allCards[index].classList.add("active");
+  }
+
+  // After transition ends, silently jump if on a clone
+  track.addEventListener("transitionend", () => {
+    isTransitioning = false;
+    if (currentIndex >= total - cloneCount) {
+      currentIndex = cloneCount;
+      goTo(currentIndex, false);
+    } else if (currentIndex < cloneCount) {
+      currentIndex = total - cloneCount * 2;
+      goTo(currentIndex, false);
+    }
+  });
+
+  function next() {
+    if (isTransitioning) return;
+    isTransitioning = true;
+    currentIndex++;
+    goTo(currentIndex);
+  }
+
+  function prev() {
+    if (isTransitioning) return;
+    isTransitioning = true;
+    currentIndex--;
+    goTo(currentIndex);
+  }
+
+  function startAuto() {
+    autoSlide = setInterval(next, interval);
+  }
+
+  function stopAuto() {
+    clearInterval(autoSlide);
+  }
+
+  // Touch / drag support
+  let startX = 0, isDragging = false;
+
+  track.addEventListener("mousedown", e => { isDragging = true; startX = e.pageX; stopAuto(); });
+  track.addEventListener("mouseup", e => {
+    if (!isDragging) return;
+    const diff = e.pageX - startX;
+    if (diff > 50) prev();
+    else if (diff < -50) next();
+    isDragging = false;
+    startAuto();
+  });
+  track.addEventListener("mouseleave", () => { isDragging = false; });
+
+  track.addEventListener("touchstart", e => { startX = e.touches[0].clientX; stopAuto(); }, { passive: true });
+  track.addEventListener("touchend", e => {
+    const diff = e.changedTouches[0].clientX - startX;
+    if (diff > 50) prev();
+    else if (diff < -50) next();
+    startAuto();
+  });
 
   carousel.addEventListener("mouseenter", stopAuto);
   carousel.addEventListener("mouseleave", startAuto);
 
-  updateCarousel(false);
+  // Init
+  goTo(currentIndex, false);
   startAuto();
 }
 
+initInfiniteCarousel(".projects-carousel", ".project-card", 3500);
+initInfiniteCarousel(".services-carousel", ".service-card", 3500);
 
-initCarousel(".projects-carousel", ".project-card", 4000);
-initCarousel(".services-carousel", ".service-card", 4000);
 
 
 const counters = document.querySelectorAll(".stat-card h3");
@@ -86,74 +134,24 @@ function runCounters() {
   counters.forEach(counter => {
     const target = +counter.dataset.target;
     let count = 0;
-    const step = Math.ceil(target / 100);
+    const step = Math.ceil(target / 60);
     const interval = setInterval(() => {
       count += step;
       if (count >= target) {
-        counter.textContent = target;
+        counter.textContent = target + "+";
         clearInterval(interval);
-      } else counter.textContent = count;
+      } else {
+        counter.textContent = count;
+      }
     }, 20);
   });
 }
 
-
 window.addEventListener("scroll", () => {
   const statsSection = document.getElementById("stats");
-  if (!statsRun && statsSection.getBoundingClientRect().top < window.innerHeight - 100) {
+  if (!statsRun && statsSection && statsSection.getBoundingClientRect().top < window.innerHeight - 100) {
     runCounters();
     statsRun = true;
     document.querySelectorAll(".stat-card").forEach(card => card.classList.add("active"));
   }
 });
-function initCarousel(carouselSelector, cardSelector, interval = 4000) {
-  const carousel = document.querySelector(carouselSelector);
-  const track = carousel.querySelector(".carousel-track");
-  const cards = carousel.querySelectorAll(cardSelector);
-
-  let index = 0;
-  let autoSlide;
-
-  function updateCarousel() {
-    const cardWidth = cards[0].offsetWidth + 32; 
-    track.style.transition = "transform 0.6s ease";
-    track.style.transform = `translateX(${-index * cardWidth}px)`;
-  }
-
-  function nextSlide() {
-    index++;
-    if (index >= cards.length) index = 0; // loop back smoothly
-    updateCarousel();
-  }
-
-  function startAuto() {
-    autoSlide = setInterval(nextSlide, interval);
-  }
-
-  function stopAuto() {
-    clearInterval(autoSlide);
-  }
-
-  
-  let startX = 0, dragging = false;
-
-  track.addEventListener("mousedown", e => { dragging = true; startX = e.pageX; stopAuto(); });
-  track.addEventListener("mouseup", e => { if(dragging){ handleSwipe(e.pageX-startX); } });
-  track.addEventListener("mouseleave", e => { if(dragging){ handleSwipe(e.pageX-startX); } });
-  track.addEventListener("touchstart", e => { startX = e.touches[0].clientX; stopAuto(); });
-  track.addEventListener("touchend", e => { handleSwipe(e.changedTouches[0].clientX - startX); });
-
-  function handleSwipe(diff){
-    if(diff > 50) { index = Math.max(0, index - 1); }
-    if(diff < -50) { index = Math.min(cards.length - 1, index + 1); }
-    updateCarousel();
-    startAuto();
-    dragging = false;
-  }
-
-  carousel.addEventListener("mouseenter", stopAuto);
-  carousel.addEventListener("mouseleave", startAuto);
-
-  updateCarousel();
-  startAuto();
-}
