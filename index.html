@@ -3,183 +3,404 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Owen P.O. Amisi | Web Developer</title>
-  <meta name="description" content="Owen P.O. Amisi – Web developer building responsive, modern websites and web apps. Available for hire.">
-  <meta property="og:title" content="Owen P.O. Amisi | Web Developer">
-  <meta property="og:description" content="Clean, responsive websites built to perform. Let's build something that works.">
-  <meta property="og:type" content="website">
+  <title>Owen P.O. Amisi — UI/UX & Web Developer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Fraunces:ital,wght@0,700;0,900;1,400;1,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
 
-  <header class="navbar" id="navbar">
-    <div class="nav-container">
-      <div class="logo">Owen P.O. Amisi</div>
-      <nav class="nav-links" id="navLinks">
-        <a href="#hero">Home</a>
-        <a href="#services">Services</a>
-        <a href="#projects">Projects</a>
-        <a href="#about">About</a>
-        <a href="#contact">Contact</a>
-      </nav>
-      <div class="menu-toggle" id="menuToggle">☰</div>
+  <!-- ── NAVIGATION ── -->
+  <nav id="mainNav">
+    <div class="nav-logo">Owen<span>.</span></div>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#services">Services</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact" class="nav-cta">Let's Talk</a>
     </div>
-  </header>
+    <div class="hamburger" id="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
 
+  <!-- ── MOBILE MENU OVERLAY ── -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#about"    onclick="closeMobile()">About</a>
+    <a href="#services" onclick="closeMobile()">Services</a>
+    <a href="#projects" onclick="closeMobile()">Projects</a>
+    <a href="#contact"  onclick="closeMobile()">Contact</a>
+  </div>
+
+  <!-- ── HERO ── -->
   <section class="hero" id="hero">
-    <div class="hero-overlay"></div>
-    <div class="hero-content">
-      <span class="hero-badge">Available for Hire 🚀</span>
-      <h1>Let's Build Something<br><span class="highlight">That Works.</span></h1>
-      <p>Have an idea, a brand, or a problem that needs a solid digital solution? I turn concepts into clean, responsive, and functional websites built to perform.</p>
-      <p class="tech-stack">HTML &nbsp;·&nbsp; CSS &nbsp;·&nbsp; JavaScript &nbsp;·&nbsp; Responsive Design ·&nbsp; Python ·&nbsp; PHP ·&nbsp; MYSQL</p>
-      <div class="hero-buttons">
-        <a href="#projects" class="btn">View Projects</a>
-        <a href="#contact" class="btn outline">Contact Me</a>
+    <div class="hero-blob blob1"></div>
+    <div class="hero-blob blob2"></div>
+    <div class="hero-blob blob3"></div>
+
+    <div class="hero-left">
+      <div class="hero-badge">Available for projects</div>
+      <h1 class="hero-title">
+        Building<br>
+        things that<br>
+        <span class="accent">actually</span><br>
+        <span class="stroke">work.</span>
+      </h1>
+      <p class="hero-desc">
+        Hi, I'm <strong>Owen P.O. Amisi</strong> — a UI/UX & Web Developer based in Kenya.
+        I turn ideas into clean, responsive, and functional digital products built to perform.
+      </p>
+      <div class="hero-actions">
+        <a href="#projects" class="btn-main">View My Work ↓</a>
+        <a href="#contact"  class="btn-ghost">Get in Touch</a>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div style="position:relative; padding: 2rem 0;">
+        <div class="floating-tag ft1">🏆 4 Awards Won</div>
+        <div class="hero-card">
+          <div class="hc-label">Developer Profile</div>
+          <div class="hc-big">2+</div>
+          <div class="hc-sub">Years of Experience</div>
+          <div class="hc-stack">
+            <div class="hc-row">
+              <div class="hc-row-left">
+                <div class="hc-dot" style="background:var(--lime)"></div>
+                Projects Delivered
+              </div>
+              <div class="hc-val">19</div>
+            </div>
+            <div class="hc-row">
+              <div class="hc-row-left">
+                <div class="hc-dot" style="background:var(--orange)"></div>
+                Happy Clients
+              </div>
+              <div class="hc-val">14</div>
+            </div>
+            <div class="hc-row">
+              <div class="hc-row-left">
+                <div class="hc-dot" style="background:var(--blue)"></div>
+                Specialty
+              </div>
+              <div class="hc-val">UI/UX + Dev</div>
+            </div>
+            <div class="hc-row">
+              <div class="hc-row-left">
+                <div class="hc-dot" style="background:var(--pink)"></div>
+                Status
+              </div>
+              <div class="hc-val" style="color:var(--lime)">● Open</div>
+            </div>
+          </div>
+        </div>
+        <div class="floating-tag ft2">⚡ Clean code. Real results.</div>
       </div>
     </div>
   </section>
 
-  <section class="services" id="services">
-    <h2 class="section-title">My Services</h2>
-    <p class="section-subtitle">Systems engineered for growth, performance, and results.</p>
-    <div class="carousel services-carousel">
-      <div class="carousel-track">
-        <div class="service-card">
-          <div class="image-wrapper"><img src="images/ecoomerce.jpeg" alt="E-Commerce"></div>
-          <h3>E-Commerce Systems</h3>
-          <p>Cart logic, WhatsApp checkout, smooth UI &amp; UX flow.</p>
-        </div>
-        <div class="service-card">
-          <div class="image-wrapper"><img src="images/webdvmnt.jpeg" alt="Web Development"></div>
-          <h3>Custom Web Apps</h3>
-          <p>Dynamic websites with client-focused interfaces and interactivity.</p>
-        </div>
-        <div class="service-card">
-          <div class="image-wrapper"><img src="images/bssetup.jpeg" alt="Business Websites"></div>
-          <h3>Business Websites</h3>
-          <p>Responsive solutions optimized for growth and usability.</p>
-        </div>
-        <div class="service-card">
-          <div class="image-wrapper"><img src="images/websiteredesign.jpeg" alt="Website Redesign"></div>
-          <h3>Website Redesign</h3>
-          <p>Elevating websites from beginner level to elite.</p>
-        </div>
-        <div class="service-card">
-          <div class="image-wrapper"><img src="images/maintance.jpeg" alt="Website Maintenance"></div>
-          <h3>Website Maintenance</h3>
-          <p>Keeping your website fast, secure, and user-friendly.</p>
-        </div>
+  <!-- ── MARQUEE TICKER ── -->
+  <div class="marquee-section">
+    <div class="marquee-track">
+      <div class="marquee-item"><span>UI/UX Design</span><div class="marquee-dot"></div></div>
+      <div class="marquee-item"><span>Web Development</span><div class="marquee-dot"></div></div>
+      <div class="marquee-item"><span>E-Commerce</span><div class="marquee-dot"></div></div>
+      <div class="marquee-item"><span>Business Websites</span><div class="marquee-dot"></div></div>
+      <div class="marquee-item"><span>Website Redesign</span><div class="marquee-dot"></div></div>
+      <div class="marquee-item"><span>Responsive Design</span><div class="marquee-dot"></div></div>
+      <div class="marquee-item"><span>Maintenance</span><div class="marquee-dot"></div></div>
+      <div class="marquee-item"><span>UI/UX Design</span><div class="marquee-dot"></div></div>
+      <div class="marquee-item"><span>Web Development</span><div class="marquee-dot"></div></div>
+      <div class="marquee-item"><span>E-Commerce</span><div class="marquee-dot"></div></div>
+      <div class="marquee-item"><span>Business Websites</span><div class="marquee-dot"></div></div>
+      <div class="marquee-item"><span>Website Redesign</span><div class="marquee-dot"></div></div>
+      <div class="marquee-item"><span>Responsive Design</span><div class="marquee-dot"></div></div>
+      <div class="marquee-item"><span>Maintenance</span><div class="marquee-dot"></div></div>
+    </div>
+  </div>
+
+  <!-- ── STATS ── -->
+  <div class="stats-section">
+    <div class="stats-grid">
+      <div class="stat-box reveal">
+        <div class="stat-num c-lime"><span class="counter" data-target="14">0</span><span class="stat-plus">+</span></div>
+        <div class="stat-label">Happy Clients</div>
+      </div>
+      <div class="stat-box reveal reveal-delay-1">
+        <div class="stat-num c-orange"><span class="counter" data-target="19">0</span><span class="stat-plus">+</span></div>
+        <div class="stat-label">Projects Delivered</div>
+      </div>
+      <div class="stat-box reveal reveal-delay-2">
+        <div class="stat-num c-blue"><span class="counter" data-target="4">0</span></div>
+        <div class="stat-label">Awards Won</div>
+      </div>
+      <div class="stat-box reveal reveal-delay-3">
+        <div class="stat-num c-pink"><span class="counter" data-target="2">0</span><span class="stat-plus">+</span></div>
+        <div class="stat-label">Years Experience</div>
       </div>
     </div>
-  </section>
+  </div>
 
-  <section class="stats" id="stats">
-    <div class="stats-container">
-      <div class="stat-card"><h3 data-target="14">0</h3><p>Happy Clients</p></div>
-      <div class="stat-card"><h3 data-target="19">0</h3><p>Projects Completed</p></div>
-      <div class="stat-card"><h3 data-target="4">0</h3><p>Awards</p></div>
-      <div class="stat-card"><h3 data-target="2">0</h3><p>Years Experience</p></div>
-    </div>
-  </section>
+  <!-- ── ABOUT ── -->
+  <section id="about">
+    <div class="about-grid">
 
-  <section class="about" id="about">
-    <div class="about-container">
-      <div class="about-image">
-        <img src="images/about.jpeg" alt="Owen Amisi">
+      <div class="about-visual reveal">
+        <div class="about-img-wrap">
+          <!-- Your photo — place your photo as images/about.jpeg -->
+          <img src="images/about.jpeg" alt="Owen P.O. Amisi">
+          <div class="about-img-overlay">
+            <div class="aio-left">UI/UX & Web Developer</div>
+            <div class="aio-right">📍 Kenya</div>
+          </div>
+        </div>
+        <div class="about-badge">2+<br>Years<br>Dev</div>
       </div>
+
       <div class="about-text">
-        <h2>About Me</h2>
-        <p>My journey into web development started with Rab Web Solutions — my very first website. It wasn't perfect. Layouts broke, JavaScript failed, and responsiveness tested my patience. But that project taught me something important: real skill is built by solving real problems.</p>
-        <p>From there, I kept building. Each project pushed my technical understanding further — from structuring clean HTML and responsive CSS to writing functional JavaScript and designing user-focused UI/UX.</p>
-        <p>Projects like Rab Cap, Rab Watch Dealers, City Scope Pharmacy, Rab Fitness Gym, and Crop Sensei weren't just websites — they were learning grounds. I learned to think like a user, optimize for performance, and turn ideas into working digital products.</p>
-        <p>Today, I build responsive websites from scratch, focusing on clean code, performance, accessibility, and solutions that serve real business goals. I bring consistency, discipline, and persistence to every project.</p>
-        <div class="about-tags">
-          <span>HTML5</span><span>CSS3</span><span>JavaScript</span><span>Responsive Design</span><span>UI/UX</span><span>E-Commerce</span><span>PHP</span><span>MYSQL</span><span>Python</span>
+        <div class="s-label reveal">About Me</div>
+        <h2 class="s-title reveal">
+          Real skill is built<br>by solving real<br>
+          <em style="color:var(--lime)">problems.</em>
+        </h2>
+        <div class="reveal reveal-delay-1">
+          <p>My journey into web development started with <strong>Rab Web Solutions</strong> — my very first project.
+            Layouts broke, JavaScript failed, and responsiveness tested my patience. But that project taught me
+            something important: real skill is built by solving real problems.</p>
+          <p>From there, I kept building. Each project pushed my technical understanding further — from structuring
+            clean HTML and responsive CSS to writing functional JavaScript and designing user-focused UI/UX.</p>
+          <p>Projects like <strong>Rab Cap, Rab Watch Dealers, City Scope Pharmacy, Rab Fitness Gym,</strong> and
+            <strong>Crop Sensei</strong> weren't just websites — they were learning grounds. I learned to think like
+            a user, optimize performance, and turn ideas into working digital products.</p>
+          <p>Today, I build responsive websites from scratch, focusing on <strong>clean code, performance,
+            accessibility, and solutions that serve real business goals.</strong></p>
+        </div>
+        <div class="about-highlights reveal reveal-delay-2">
+          <div class="ah-chip">HTML & CSS</div>
+          <div class="ah-chip">JavaScript</div>
+          <div class="ah-chip">UI/UX Design</div>
+          <div class="ah-chip">Responsive Design</div>
+          <div class="ah-chip">E-Commerce</div>
+          <div class="ah-chip">Performance</div>
         </div>
       </div>
+
     </div>
   </section>
 
-  <section class="projects" id="projects">
-    <h2 class="section-title">Projects</h2>
-    <p class="section-subtitle">Built With Consistency, Built With Love ❤️</p>
-    <div class="carousel projects-carousel">
-      <div class="carousel-track">
-        <a href="https://owenpioneers-jpg.github.io/rabb-web-sltns/index.html" class="project-card" target="_blank" rel="noopener">
+  <!-- ── SERVICES ── -->
+  <section id="services">
+    <div class="services-header">
+      <div>
+        <div class="s-label reveal">What I Do</div>
+        <h2 class="s-title reveal">Services built for<br><em style="color:var(--lime)">growth & results.</em></h2>
+      </div>
+      <p class="s-sub reveal" style="text-align:right; max-width:300px">
+        Systems engineered for performance, growth, and real-world impact.
+      </p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card sc1 reveal">
+        <div class="sc-icon">🛒</div>
+        <h3 class="sc-title">E-Commerce Systems</h3>
+        <p class="sc-desc">Cart logic, WhatsApp checkout, smooth UI & UX flow designed to convert visitors into buyers.</p>
+        <span class="sc-tag">E-Commerce</span>
+      </div>
+      <div class="service-card sc2 reveal reveal-delay-1">
+        <div class="sc-icon">⚡</div>
+        <h3 class="sc-title">Custom Web Apps</h3>
+        <p class="sc-desc">Dynamic websites with client-focused interfaces and interactivity that delivers real functionality.</p>
+        <span class="sc-tag">Development</span>
+      </div>
+      <div class="service-card sc3 reveal reveal-delay-2">
+        <div class="sc-icon">🏢</div>
+        <h3 class="sc-title">Business Websites</h3>
+        <p class="sc-desc">Responsive business solutions optimized for growth, usability, and long-term performance.</p>
+        <span class="sc-tag">Business</span>
+      </div>
+      <div class="service-card sc4 reveal reveal-delay-3">
+        <div class="sc-icon">✨</div>
+        <h3 class="sc-title">Website Redesign</h3>
+        <p class="sc-desc">Elevate your website from beginner level to elite — better UX, better performance, better results.</p>
+        <span class="sc-tag">Redesign</span>
+      </div>
+      <div class="service-card sc5 reveal reveal-delay-4">
+        <div class="sc-icon">🔧</div>
+        <h3 class="sc-title">Website Maintenance</h3>
+        <p class="sc-desc">Keep your website running smoothly with ongoing updates, fixes, and performance optimizations.</p>
+        <span class="sc-tag">Maintenance</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── PROJECTS ── -->
+  <section id="projects">
+    <div class="projects-header">
+      <div class="s-label reveal">My Work</div>
+      <h2 class="s-title reveal">Built with consistency,<br><em style="color:var(--lime)">built with love.</em></h2>
+      <p class="s-sub reveal reveal-delay-1">A selection of real projects delivered for real clients.</p>
+    </div>
+    <div class="projects-grid">
+
+      <!-- 01 -->
+      <a href="https://owenpioneers-jpg.github.io/rabb-web-sltns/index.html" target="_blank" class="project-card pj1 reveal">
+        <div class="pc-top pc-img">
           <img src="images/rabweb.jpeg" alt="Rab Web Solutions">
-          <h3>Rab Web Solutions</h3>
-          <p>Where it all began — my first full website build.</p>
-        </a>
-        <a href="https://owenpioneers-jpg.github.io/RABCAP/" class="project-card" target="_blank" rel="noopener">
+          <div class="pc-num">01</div>
+        </div>
+        <div class="pc-body">
+          <div class="pc-type">First Project</div>
+          <div class="pc-title">Rab Web Solutions</div>
+          <div class="pc-desc">The project that started it all — a web solutions agency site built from scratch.</div>
+        </div>
+        <div class="pc-arrow">↗</div>
+      </a>
+
+      <!-- 02 -->
+      <a href="https://owenpioneers-jpg.github.io/RABCAP/" target="_blank" class="project-card pj2 reveal reveal-delay-1">
+        <div class="pc-top pc-img">
           <img src="images/rabcap.jpeg" alt="Rab Cap">
-          <h3>Rab Cap</h3>
-          <p>Custom web app with a dynamic, client-focused interface.</p>
-        </a>
-        <a href="https://owenpioneers-jpg.github.io/RAB-WATCH-DEALERS/" class="project-card" target="_blank" rel="noopener">
+          <div class="pc-num">02</div>
+        </div>
+        <div class="pc-body">
+          <div class="pc-type">Custom Web App</div>
+          <div class="pc-title">Rab Cap</div>
+          <div class="pc-desc">A stylish custom cap brand website with a modern shopping experience.</div>
+        </div>
+        <div class="pc-arrow">↗</div>
+      </a>
+
+      <!-- 03 -->
+      <a href="https://owenpioneers-jpg.github.io/RAB-WATCH-DEALERS/" target="_blank" class="project-card pj3 reveal reveal-delay-2">
+        <div class="pc-top pc-img">
           <img src="images/rabwatch.jpeg" alt="Rab Watch Dealers">
-          <h3>Rab Watch Dealers</h3>
-          <p>E-commerce storefront with cart logic &amp; sales flow.</p>
-        </a>
-        <a href="https://owenpioneers-jpg.github.io/City-Scope-Pharmacy-System/" class="project-card" target="_blank" rel="noopener">
+          <div class="pc-num">03</div>
+        </div>
+        <div class="pc-body">
+          <div class="pc-type">E-Commerce & Sales</div>
+          <div class="pc-title">Rab Watch Dealers</div>
+          <div class="pc-desc">An elegant e-commerce platform for luxury watch sales with smooth UX.</div>
+        </div>
+        <div class="pc-arrow">↗</div>
+      </a>
+
+      <!-- 04 -->
+      <a href="https://owenpioneers-jpg.github.io/City-Scope-Pharmacy-System/" target="_blank" class="project-card pj4 reveal">
+        <div class="pc-top pc-img">
           <img src="images/cityscope.jpeg" alt="City Scope Pharmacy">
-          <h3>City Scope Pharmacy</h3>
-          <p>Digital health platform for a modern pharmacy system.</p>
-        </a>
-        <a href="https://owenpioneers-jpg.github.io/RAB-Fitness-Gym/" class="project-card" target="_blank" rel="noopener">
+          <div class="pc-num">04</div>
+        </div>
+        <div class="pc-body">
+          <div class="pc-type">Health System</div>
+          <div class="pc-title">City Scope Pharmacy</div>
+          <div class="pc-desc">A pharmacy management system built for efficiency, accessibility, and real healthcare needs.</div>
+        </div>
+        <div class="pc-arrow">↗</div>
+      </a>
+
+      <!-- 05 -->
+      <a href="https://owenpioneers-jpg.github.io/RAB-Fitness-Gym/" target="_blank" class="project-card pj5 reveal reveal-delay-1">
+        <div class="pc-top pc-img">
           <img src="images/rabfitnessgym.jpeg" alt="Rab Fitness Gym">
-          <h3>Rab Fitness Gym</h3>
-          <p>Bold fitness brand website built for energy and conversion.</p>
-        </a>
-        <a href="https://cropsenseiconsulting.co.ke/" class="project-card" target="_blank" rel="noopener">
+          <div class="pc-num">05</div>
+        </div>
+        <div class="pc-body">
+          <div class="pc-type">Fitness Brand</div>
+          <div class="pc-title">Rab Fitness Gym</div>
+          <div class="pc-desc">An energetic gym website with class schedules, membership info, and bold visuals.</div>
+        </div>
+        <div class="pc-arrow">↗</div>
+      </a>
+
+      <!-- 06 -->
+      <a href="https://cropsenseiconsulting.co.ke/" target="_blank" class="project-card pj6 reveal reveal-delay-2">
+        <div class="pc-top pc-img">
           <img src="images/cropsensei.jpeg" alt="Crop Sensei Consulting">
-          <h3>Crop Sensei Consulting</h3>
-          <p>Sustainable farming with a modern digital presence.</p>
-        </a>
-                <a href="https://owenpioneers-jpg.github.io/massage-and-spa/" class="project-card" target="_blank" rel="noopener">
-          <img src="images/rabreception.jpeg" alt="RAB Massage & Spa">
-          <h3>RAB Massage & Spa</h3>
-          <p>Relax,Refresh & Rejuvinate .</p>
-        </a>
-      </div>
+          <div class="pc-num">06</div>
+        </div>
+        <div class="pc-body">
+          <div class="pc-type">AgriTech</div>
+          <div class="pc-title">Crop Sensei Consulting</div>
+          <div class="pc-desc">A sustainable farming consulting platform with a clean, professional look.</div>
+        </div>
+        <div class="pc-arrow">↗</div>
+      </a>
+
+      <!-- 07 — Massage Website -->
+      <a href="https://owenpioneers-jpg.github.io/massage-and-spa/" target="_blank" class="project-card pj7 reveal">
+        <div class="pc-top pc-img">
+          <img src="images/rabmassage.jpeg" alt="Massage & Wellness Studio">
+          <div class="pc-num">07</div>
+        </div>
+        <div class="pc-body">
+          <div class="pc-type">Wellness & Spa</div>
+          <div class="pc-title">Massage & Wellness Studio</div>
+          <div class="pc-desc">A calming, elegant website for a massage and wellness brand — designed for bookings and relaxation.</div>
+        </div>
+        <div class="pc-arrow">↗</div>
+      </a>
+
+      <!-- 08 — Advocate & Justice Portfolio -->
+      <a href="https://owenpioneers-jpg.github.io/B.AKINYI/" target="_blank" class="project-card pj8 reveal reveal-delay-1">
+        <div class="pc-top pc-img">
+          <img src="images/advocatemgtnt.jpeg" alt="Advocate & Justice Portfolio">
+          <div class="pc-num">08</div>
+        </div>
+        <div class="pc-body">
+          <div class="pc-type">Legal & Justice</div>
+          <div class="pc-title">Advocate & Justice Portfolio</div>
+          <div class="pc-desc">A professional portfolio site for a legal advocate — structured for authority, trust, and case management.</div>
+        </div>
+        <div class="pc-arrow">↗</div>
+      </a>
+
+      <!-- 09 — Church Website -->
+      <a href="https://owenpioneers-jpg.github.io/coffchurch/" target="_blank" class="project-card pj9 reveal reveal-delay-2">
+        <div class="pc-top pc-img">
+          <img src="images/coffchurch.jpeg" alt="Church Website">
+          <div class="pc-num">09</div>
+        </div>
+        <div class="pc-body">
+          <div class="pc-type">Faith & Community</div>
+          <div class="pc-title">Church Website</div>
+          <div class="pc-desc">A warm, welcoming church website with service times, events, sermons, and community resources.</div>
+        </div>
+        <div class="pc-arrow">↗</div>
+      </a>
+
     </div>
   </section>
 
-  <section class="contact" id="contact">
+  <!-- ── CONTACT ── -->
+  <section id="contact">
     <div class="contact-inner">
-      <h2>Ready to Build Something Great?</h2>
-      <p>One message away from turning your idea into reality.</p>
-      <div class="contact-links">
-        <a href="mailto:owenicardi254@gmail.com" class="contact-card">
-          <span class="contact-icon">📧</span>
-          <span class="contact-label">Email Me</span>
-          <span class="contact-detail">owenicardi254@gmail.com</span>
-        </a>
-        <a href="https://wa.me/254742184483" class="contact-card" target="_blank" rel="noopener">
-          <span class="contact-icon">💬</span>
-          <span class="contact-label">WhatsApp</span>
-          <span class="contact-detail">+254 742 184 483</span>
-        </a>
-        <a href="https://instagram.com/owenicardi17" class="contact-card" target="_blank" rel="noopener">
-          <span class="contact-icon">📸</span>
-          <span class="contact-label">Instagram</span>
-          <span class="contact-detail">@owenicardi17</span>
-        </a>
+      <div class="s-label reveal" style="justify-content:center">Get In Touch</div>
+      <h2 class="contact-big reveal">
+        One call away<br>from <span class="c-lime">greatness.</span>
+      </h2>
+      <p class="contact-desc reveal reveal-delay-1">
+        Have an idea? Let's turn code into magic. Reach out and let's build something great together.
+      </p>
+      <div class="contact-links reveal reveal-delay-2">
+        <a href="mailto:owenicardi254@gmail.com" class="contact-link cl-email">📧 Send Email</a>
+        <a href="https://wa.me/254742184483" target="_blank" class="contact-link cl-wa">💬 WhatsApp</a>
+        <a href="https://instagram.com/owenicardi17" target="_blank" class="contact-link cl-ig">📸 Instagram</a>
+      </div>
+      <div class="contact-divider"></div>
+      <div class="contact-meta reveal reveal-delay-3">
+        <div class="cm-item">📍 Based in Kenya</div>
+        <div class="cm-item"><a href="mailto:owenicardi254@gmail.com">owenicardi254@gmail.com</a></div>
+        <div class="cm-item"><a href="https://wa.me/254742184483">+254 742 184 483</a></div>
       </div>
     </div>
   </section>
 
+  <!-- ── FOOTER ── -->
   <footer>
-    <p>© 2026 Owen P.O. Amisi &nbsp;•&nbsp; Built with consistency 💻</p>
-    <p class="footer-sub">Nairobi, Kenya &nbsp;•&nbsp; Available Worldwide</p>
+    <div class="footer-left">Owen<span>.</span></div>
+    <div class="footer-right">© 2026 Owen P.O. Amisi · Built with consistency 💻</div>
   </footer>
 
   <script src="script.js"></script>
-  <script>
-    window.addEventListener('scroll', () => {
-      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
-    });
-  </script>
 </body>
 </html>
