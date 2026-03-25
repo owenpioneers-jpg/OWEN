@@ -1,159 +1,86 @@
+/* ============================================
+   Owen P.O. Amisi — Portfolio Scripts
+   ============================================ */
 
-const toggle = document.getElementById("menuToggle");
-const nav = document.getElementById("navLinks");
-
-toggle.addEventListener("click", () => {
-  nav.classList.toggle("show");
-  toggle.classList.toggle("active");
-  toggle.textContent = nav.classList.contains("show") ? "✕" : "☰";
+// ── NAV SCROLL EFFECT ──
+const nav = document.getElementById('mainNav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
 });
 
+// ── HAMBURGER MOBILE MENU ──
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
 
-document.querySelectorAll(".nav-links a").forEach(link => {
-  link.addEventListener("click", () => {
-    if (window.innerWidth <= 768) {
-      nav.classList.remove("show");
-      toggle.classList.remove("active");
-      toggle.textContent = "☰";
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('open');
+  mobileMenu.classList.toggle('open');
+  document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+});
+
+function closeMobile() {
+  hamburger.classList.remove('open');
+  mobileMenu.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Close mobile menu on Escape key
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeMobile();
+});
+
+// ── SCROLL REVEAL ──
+const reveals = document.querySelectorAll('.reveal');
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      revealObserver.unobserve(entry.target);
     }
   });
-});
+}, { threshold: 0.1 });
+reveals.forEach(el => revealObserver.observe(el));
 
+// ── COUNTER ANIMATION ──
+const counters = document.querySelectorAll('.counter');
+let countersStarted = false;
 
-function initCarousel(carouselSelector, cardSelector, interval = 4000) {
-  const carousel = document.querySelector(carouselSelector);
-  const track = carousel.querySelector(".carousel-track");
-  let cards = carousel.querySelectorAll(cardSelector);
-
-  let index = 1;
-  let autoSlide;
-
-  const firstClone = cards[0].cloneNode(true);
-  const lastClone = cards[cards.length - 1].cloneNode(true);
-  track.appendChild(firstClone);
-  track.prepend(lastClone);
-  cards = carousel.querySelectorAll(cardSelector);
-
-  function updateCarousel(animate = true) {
-    const cardWidth = cards[0].offsetWidth + 32; 
-    track.style.transition = animate ? "0.6s" : "none";
-    track.style.transform = `translateX(${-index * cardWidth}px)`;
-    cards.forEach(card => card.classList.remove("active"));
-    cards[index].classList.add("active");
+const statsObserver = new IntersectionObserver((entries) => {
+  if (entries[0].isIntersecting && !countersStarted) {
+    countersStarted = true;
+    counters.forEach(counter => {
+      const target = parseInt(counter.dataset.target);
+      let current = 0;
+      const duration = 1500; // ms
+      const steps = 60;
+      const stepVal = target / steps;
+      const interval = setInterval(() => {
+        current = Math.min(current + stepVal, target);
+        counter.textContent = Math.floor(current);
+        if (current >= target) {
+          counter.textContent = target;
+          clearInterval(interval);
+        }
+      }, duration / steps);
+    });
   }
+}, { threshold: 0.5 });
 
-  function startAuto() { autoSlide = setInterval(() => { index++; updateCarousel(); }, interval); }
-  function stopAuto() { clearInterval(autoSlide); }
+const statsSection = document.querySelector('.stats-section');
+if (statsSection) statsObserver.observe(statsSection);
 
-  track.addEventListener("transitionend", () => {
-    if (cards[index].isSameNode(firstClone)) index = 1;
-    if (cards[index].isSameNode(lastClone)) index = cards.length - 2;
-    updateCarousel(false);
+// ── ACTIVE NAV LINK ON SCROLL ──
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+
+const sectionObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navLinks.forEach(link => link.classList.remove('active'));
+      const active = document.querySelector(`.nav-links a[href="#${entry.target.id}"]`);
+      if (active) active.classList.add('active');
+    }
   });
+}, { threshold: 0.4 });
 
- 
-  let startX = 0, dragging = false;
-  track.addEventListener("mousedown", e => { dragging = true; startX = e.pageX; stopAuto(); });
-  track.addEventListener("mouseup", e => { if (dragging) handleSwipe(e.pageX - startX); });
-  track.addEventListener("mouseleave", e => { if (dragging) handleSwipe(e.pageX - startX); });
-  track.addEventListener("touchstart", e => { startX = e.touches[0].clientX; stopAuto(); });
-  track.addEventListener("touchend", e => { handleSwipe(e.changedTouches[0].clientX - startX); });
-
-  function handleSwipe(diff) {
-    if (diff > 50) index--;
-    else if (diff < -50) index++;
-    updateCarousel();
-    startAuto();
-    dragging = false;
-  }
-
-  carousel.addEventListener("mouseenter", stopAuto);
-  carousel.addEventListener("mouseleave", startAuto);
-
-  updateCarousel(false);
-  startAuto();
-}
-
-
-initCarousel(".projects-carousel", ".project-card", 4000);
-initCarousel(".services-carousel", ".service-card", 4000);
-
-
-const counters = document.querySelectorAll(".stat-card h3");
-let statsRun = false;
-
-function runCounters() {
-  counters.forEach(counter => {
-    const target = +counter.dataset.target;
-    let count = 0;
-    const step = Math.ceil(target / 100);
-    const interval = setInterval(() => {
-      count += step;
-      if (count >= target) {
-        counter.textContent = target;
-        clearInterval(interval);
-      } else counter.textContent = count;
-    }, 20);
-  });
-}
-
-
-window.addEventListener("scroll", () => {
-  const statsSection = document.getElementById("stats");
-  if (!statsRun && statsSection.getBoundingClientRect().top < window.innerHeight - 100) {
-    runCounters();
-    statsRun = true;
-    document.querySelectorAll(".stat-card").forEach(card => card.classList.add("active"));
-  }
-});
-function initCarousel(carouselSelector, cardSelector, interval = 4000) {
-  const carousel = document.querySelector(carouselSelector);
-  const track = carousel.querySelector(".carousel-track");
-  const cards = carousel.querySelectorAll(cardSelector);
-
-  let index = 0;
-  let autoSlide;
-
-  function updateCarousel() {
-    const cardWidth = cards[0].offsetWidth + 32; 
-    track.style.transition = "transform 0.6s ease";
-    track.style.transform = `translateX(${-index * cardWidth}px)`;
-  }
-
-  function nextSlide() {
-    index++;
-    if (index >= cards.length) index = 0; // loop back smoothly
-    updateCarousel();
-  }
-
-  function startAuto() {
-    autoSlide = setInterval(nextSlide, interval);
-  }
-
-  function stopAuto() {
-    clearInterval(autoSlide);
-  }
-
-  
-  let startX = 0, dragging = false;
-
-  track.addEventListener("mousedown", e => { dragging = true; startX = e.pageX; stopAuto(); });
-  track.addEventListener("mouseup", e => { if(dragging){ handleSwipe(e.pageX-startX); } });
-  track.addEventListener("mouseleave", e => { if(dragging){ handleSwipe(e.pageX-startX); } });
-  track.addEventListener("touchstart", e => { startX = e.touches[0].clientX; stopAuto(); });
-  track.addEventListener("touchend", e => { handleSwipe(e.changedTouches[0].clientX - startX); });
-
-  function handleSwipe(diff){
-    if(diff > 50) { index = Math.max(0, index - 1); }
-    if(diff < -50) { index = Math.min(cards.length - 1, index + 1); }
-    updateCarousel();
-    startAuto();
-    dragging = false;
-  }
-
-  carousel.addEventListener("mouseenter", stopAuto);
-  carousel.addEventListener("mouseleave", startAuto);
-
-  updateCarousel();
-  startAuto();
-}
+sections.forEach(s => sectionObserver.observe(s));
